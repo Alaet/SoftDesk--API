@@ -68,6 +68,9 @@ class Contributors(models.Model):
     class Meta:
         unique_together = ('project_id', 'user_id')
 
+    def __str__(self):
+        return "Projet : %s, Utilisateur : %s" % (self.project_id, self.user_id)
+
 
 class Comment(models.Model):
     """
@@ -77,3 +80,6 @@ class Comment(models.Model):
     author_user_id = models.ForeignKey(USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     issue_id = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
     created_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Utilisateur : %s, Problème lié : %s" % (self.author_user_id, self.issue_id)
