@@ -66,6 +66,3 @@ class ContributorsListSerializer(ModelSerializer):
     class Meta:
         model = Contributors
         fields = ['id', 'user_id']
-
-
-

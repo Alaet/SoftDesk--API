@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from authentication.permissions import SignupPermissions
 from authentication.serializers import UserCreation as s_UserCreation
-from project.models import User
+from project.models import USER_MODEL
 
 
 class UserCreation(ModelViewSet):
@@ -16,5 +16,4 @@ class UserCreation(ModelViewSet):
         Get list fo every User in DB
         :return: All DB  ->  User(AbstractUser)
         """
-        return User.objects.all()
-
+        return USER_MODEL.objects.all()
