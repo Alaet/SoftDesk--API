@@ -34,9 +34,7 @@ class ProjectViewSet(ModelViewSet):
         return permission_classes
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return ProjectDetailSerializer
-        elif self.action == 'create' or self.action == 'update':
+        if self.action == 'retrieve' or self.action == 'create' or self.action == 'update':
             return ProjectDetailSerializer
         return ProjectListSerializer
 
