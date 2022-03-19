@@ -27,12 +27,11 @@ class IsOwner(BasePermission):
         :param obj:
         :return: bool
         """
-        # if isinstance(obj, Issue) or isinstance()
-        if type(obj) == Issue or type(obj) == Comment:
+        if isinstance(obj, Issue) or isinstance(obj, Comment):
             if request.user.id == obj.author_user_id.id:
                 return True
             raise ValidationError("Seul l'auteur %s peut le modifier ou le supprimer" % obj.author_user_id)
-        elif type(obj) == Project:
+        elif isinstance(obj, Project):
             owner = Contributors.objects.filter(project_id=obj.id).values_list('user_id', flat=True)
             if request.user.id == owner[0]:
                 return True
@@ -42,6 +41,7 @@ class IsOwner(BasePermission):
 class IsContributor(BasePermission):
     """
     Check if request.user is a contributor of a project
+    Check permissions base on project id
     """
     def has_permission(self, request, view):
         if request.resolver_match.kwargs:
@@ -58,20 +58,20 @@ class IsContributor(BasePermission):
             return True
 
     def has_object_permission(self, request, view, obj):
-        if type(obj) == Issue:
+        if isinstance(obj, Issue):
             contrib = Contributors.objects.filter(project_id=obj.project_id.id).values_list('user_id', flat=True)
             if request.user.id in contrib:
                 return True
-        elif type(obj) == Project:
+        elif isinstance(obj, Project):
             contrib = Contributors.objects.filter(project_id=obj.id).values_list('user_id', flat=True)
             if request.user.id in contrib:
                 return True
-        elif type(obj) == Comment:
+        elif isinstance(obj, Comment):
             issue = get_object_or_404(Issue, pk=obj.issue_id.id)
             contrib = Contributors.objects.filter(project_id=issue.project_id).values_list('user_id', flat=True)
             if request.user.id in contrib:
                 return True
-        elif type(obj) == Contributors:
+        elif isinstance(obj, Contributors):
             contrib = Contributors.objects.filter(project_id=obj.project_id.id).values_list('user_id', flat=True)
             if request.user.id == contrib[0]:
                 return True
