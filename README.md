@@ -32,6 +32,7 @@ Une fois l'appliction télécharger, pour mettre en place :
    
    
       `python3 manage.py makemigrations`
+
       `python3 manage.py migrate` 
 
    - Avec la base disponible :
