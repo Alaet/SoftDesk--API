@@ -1,37 +1,37 @@
 from rest_framework.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
-
-# Create your views here.
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import get_object_or_404
 
 from project.models import Project, Contributors, Issue, Comment
 from project.permissions import IsAdmin, IsOwner, IsContributor
-from project.serializers import CommentListSerializer, ProjectDetailSerializer, IssueDetailSerializer, \
-    ProjectListSerializer, ContributorsListSerializer, CommentDetailSerializer, IssueListSerializer
+from project.serializers import CommentListSerializer, \
+    ProjectDetailSerializer, IssueDetailSerializer, \
+    ProjectListSerializer, ContributorsListSerializer,\
+    CommentDetailSerializer, IssueListSerializer
 
 
 class ProjectViewSet(ModelViewSet):
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated()]
+        permission_classes = [IsAuthenticated]
         if self.request.method == "GET":
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
+                IsContributor,
+                IsAuthenticated,
             ]
         elif self.request.method in ["PUT", "PATCH", "DELETE"]:
             permission_classes = [
-                IsAuthenticated(),
-                IsOwner(),
+                IsAuthenticated,
+                IsOwner,
             ]
         elif self.request.method == "POST":
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
-                IsAdmin(),
+                IsContributor,
+                IsAuthenticated,
+                IsAdmin,
             ]
-        return permission_classes
+        return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'create' or self.action == 'update':
@@ -58,18 +58,18 @@ class IssueViewSet(ModelViewSet):
         return IssueListSerializer
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated()]
+        permission_classes = [IsAuthenticated]
         if self.request.method == "GET":
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
+                IsContributor,
+                IsAuthenticated,
             ]
         elif self.request.method in ["PUT", "PATCH", "DELETE"]:
             permission_classes = [
-                IsAuthenticated(),
-                IsOwner(),
+                IsAuthenticated,
+                IsOwner,
             ]
-        return permission_classes
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         pk_project = self.kwargs.get('id_project')
@@ -88,18 +88,18 @@ class IssueViewSet(ModelViewSet):
 class CommentViewSet(ModelViewSet):
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated()]
+        permission_classes = [IsAuthenticated]
         if self.request.method == "GET":
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
+                IsContributor,
+                IsAuthenticated,
             ]
         elif self.request.method in ["PUT", "PATCH", "DELETE"]:
             permission_classes = [
-                IsAuthenticated(),
-                IsOwner(),
+                IsAuthenticated,
+                IsOwner,
             ]
-        return permission_classes
+        return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'create' or self.action == 'update':
@@ -124,19 +124,19 @@ class ContributorsListViewSet(ModelViewSet):
     serializer_class = ContributorsListSerializer
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated()]
+        permission_classes = [IsAuthenticated]
         if self.request.method == "GET":
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
+                IsContributor,
+                IsAuthenticated,
             ]
         elif self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
             permission_classes = [
-                IsContributor(),
-                IsAuthenticated(),
-                IsAdmin(),
+                IsContributor,
+                IsAuthenticated,
+                IsAdmin,
             ]
-        return permission_classes
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         pk_project = self.kwargs.get('id_project')
