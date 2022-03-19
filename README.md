@@ -34,12 +34,9 @@ Une fois l'appliction télécharger, pour mettre en place :
       `python3 manage.py makemigrations`
 
       `python3 manage.py migrate` 
-
-   - Avec la base disponible :
-   
       
       `py manage.py runserver` ou `python3 manage.py runserver` 
 
 Lien vers la documentation de l'API :
 
-https://documenter.getpostman.com/view/19944119/UVsFyThV
+[SoftDeskAPI Documentation](https://documenter.getpostman.com/view/19944119/UVsFyThV)
