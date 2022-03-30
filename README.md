@@ -30,8 +30,6 @@ Une fois l'appliction télécharger, pour mettre en place :
 5. Lancer le serveur Django:
    - Pour initialiser une base de donnée :
    
-   
-      `python3 manage.py makemigrations`
 
       `python3 manage.py migrate` 
       
